@@ -1,6 +1,5 @@
--- Students Table
-CREATE TABLE Students (
-    snum INT,
+CREATE TABLE students (
+    snum INT UNIQUE,
     ssn INT PRIMARY KEY,
     name VARCHAR(10),
     gender VARCHAR(1),
@@ -12,7 +11,7 @@ CREATE TABLE Students (
 );
 
 -- Departments Table
-CREATE TABLE Departments (
+CREATE TABLE departments (
     code INT PRIMARY KEY,
     name VARCHAR(50) UNIQUE,
     phone VARCHAR(10),
@@ -20,52 +19,52 @@ CREATE TABLE Departments (
 );
 
 -- Degrees Table
-CREATE TABLE Degrees (
+CREATE TABLE degrees (
     name VARCHAR(50),
     level VARCHAR(5),
     department_code INT,
     PRIMARY KEY (name, level),
-    FOREIGN KEY (department_code) REFERENCES Departments(code)
+    FOREIGN KEY (department_code) REFERENCES departments(code)
 );
 
 -- Courses Table
-CREATE TABLE Courses (
+CREATE TABLE courses (
     number INT PRIMARY KEY,
     name VARCHAR(50),
     description VARCHAR(50),
     credithours INT,
     level VARCHAR(20),
     department_code INT,
-    FOREIGN KEY (department_code) REFERENCES Departments(code)
+    FOREIGN KEY (department_code) REFERENCES departments(code)
 );
 
 -- Register Table
-CREATE TABLE Register (
+CREATE TABLE register (
     snum INT,
     course_number INT,
     regtime VARCHAR(20),
     grade INT,
     PRIMARY KEY (snum, course_number),
-    FOREIGN KEY (snum) REFERENCES Students(snum),
-    FOREIGN KEY (course_number) REFERENCES Courses(number)
+    FOREIGN KEY (snum) REFERENCES students(snum),
+    FOREIGN KEY (course_number) REFERENCES courses(number)
 );
 
 -- Major Table
-CREATE TABLE Major (
+CREATE TABLE major (
     snum INT,
     name VARCHAR(50),
     level VARCHAR(5),
     PRIMARY KEY (snum, name, level),
-    FOREIGN KEY (snum) REFERENCES Students(snum),
-    FOREIGN KEY (name, level) REFERENCES Degrees(name, level)
+    FOREIGN KEY (snum) REFERENCES students(snum),
+    FOREIGN KEY (name, level) REFERENCES degrees(name, level)
 );
 
 -- Minor Table
-CREATE TABLE Minor (
+CREATE TABLE minor (
     snum INT,
     name VARCHAR(50),
     level VARCHAR(5),
     PRIMARY KEY (snum, name, level),
-    FOREIGN KEY (snum) REFERENCES Students(snum),
-    FOREIGN KEY (name, level) REFERENCES Degrees(name, level)
+    FOREIGN KEY (snum) REFERENCES students(snum),
+    FOREIGN KEY (name, level) REFERENCES degrees(name, level)
 );

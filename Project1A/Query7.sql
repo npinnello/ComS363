@@ -1,7 +1,4 @@
-SELECT S.name, S.snum
-FROM Students AS S
-INNER JOIN Major AS M ON S.snum = M.snum
-INNER JOIN Register AS R ON S.snum = R.snum
-INNER JOIN Courses AS C ON R.course_number = C.number
-WHERE M.level IN ('MS', 'PhD') AND C.name = 'database'
-ORDER BY S.snum;
+select s.name, s.snum
+from students s, register r, courses c, major m
+where s.snum = r.snum and r.course_number = c.number and c.name = 'Database Design Principle' and s.snum=m.snum and m.level !='BS'
+order by s.snum

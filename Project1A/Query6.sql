@@ -1,4 +1,4 @@
 SELECT S.snum, S.name
-FROM Students AS S
-INNER JOIN Minor AS M ON S.snum = M.snum
+FROM students AS S
+INNER JOIN minor AS M ON S.snum = M.snum
 ORDER BY S.snum;

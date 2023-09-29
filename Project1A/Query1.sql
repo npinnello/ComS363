@@ -1,3 +1,3 @@
 SELECT c_addr
-FROM Students
+FROM students
 WHERE name = 'Kevin';

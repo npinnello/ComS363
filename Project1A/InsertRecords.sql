@@ -1,5 +1,5 @@
 -- Insert records into the Students table
-INSERT INTO Students (snum, ssn, name, gender, dob, c_addr, c_phone, p_addr, p_phone)
+INSERT INTO students (snum, ssn, name, gender, dob, c_addr, c_phone, p_addr, p_phone)
 VALUES
     (1001, 654651234, 'Randy', 'M', '2000-01-02', '301 E Hall', '5152700988', '121 Main', '7083066321'),
     (1002, 123097834, 'Victor', 'M', '2000-05-06', '270 W Hall', '5151234578', '702 Walnut', '7080366333'),
@@ -10,7 +10,7 @@ VALUES
     (1007, 432609519, 'Kevin', 'M', '2000-08-12', '75 E Hall', '5157082497', '89 National', '7182340772');
 
 -- Insert records into the Departments table
-INSERT INTO Departments (code, name, phone, college)
+INSERT INTO departments (code, name, phone, college)
 VALUES
     (401, 'Computer Science', '5152982801', 'LAS'),
     (402, 'Mathematics', '5152982802', 'LAS'),
@@ -18,7 +18,7 @@ VALUES
     (404, 'Landscape Architect', '5152982804', 'Design');
 
     -- Insert records into the Degrees table
-INSERT INTO Degrees (name, level, department_code)
+INSERT INTO degrees (name, level, department_code)
 VALUES
     ('Computer Science', 'BS', 401),
     ('Software Engineering', 'BS', 401),
@@ -29,7 +29,7 @@ VALUES
     ('Landscape Architect', 'BS', 404);
 
 -- Insert records into the Major table
-INSERT INTO Major (snum, name, level)
+INSERT INTO major (snum, name, level)
 VALUES
     (1001, 'Computer Science', 'BS'),
     (1002, 'Software Engineering', 'BS'),
@@ -40,7 +40,7 @@ VALUES
     (1007, 'Computer Science', 'PhD');
 
 -- Insert records into the Minor table
-INSERT INTO Minor (snum, name, level)
+INSERT INTO minor (snum, name, level)
 VALUES
     (1007, 'Applied Mathematics', 'MS'),
     (1005, 'Applied Mathematics', 'MS'),
@@ -48,7 +48,7 @@ VALUES
     (1006, 'Software Engineering', 'BS');
 
 -- Insert records into the Courses table
-INSERT INTO Courses (number, name, description, credithours, level, department_code)
+INSERT INTO courses (number, name, description, credithours, level, department_code)
 VALUES
     (113, 'Spreadsheet', 'Microsoft Excel and Access', 3, 'Undergraduate', 401),
     (311, 'Algorithm Design and Analysis', '', 3, 'Undergraduate', 401),
@@ -60,7 +60,7 @@ VALUES
     (102, 'Calculus', 'Limit and Derivative', 4, 'Undergraduate', 402);
 
 -- Insert records into the Register table
-INSERT INTO Register (snum, course_number, regtime, grade)
+INSERT INTO register (snum, course_number, regtime, grade)
 VALUES
     (1001, 363, 'Fall2020', 3),
     (1002, 311, 'Fall2020', 4),

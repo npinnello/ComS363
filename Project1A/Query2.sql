@@ -1,4 +1,4 @@
 SELECT M.name, M.level
-FROM Major AS M
-INNER JOIN Students AS S ON M.snum = S.snum
+FROM major AS M
+INNER JOIN students AS S ON M.snum = S.snum
 WHERE S.name = 'Kevin';

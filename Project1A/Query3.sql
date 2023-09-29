@@ -1,4 +1,4 @@
 SELECT number, name
-FROM Courses
+FROM courses
 WHERE department_code = 401
 ORDER BY number;
