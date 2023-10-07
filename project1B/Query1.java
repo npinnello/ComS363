@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class Query1 {
     public static void main(String[] args) {
         String jdbcUrl = "jdbc:mysql://localhost:3306/Project1b";
-        String username = "root";
-        String password = "pinnello5";
+        String username = "coms363";
+        String password = "password";
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
             // Define the SQL query to calculate average grades for courses
