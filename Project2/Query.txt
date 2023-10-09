@@ -17,7 +17,7 @@ WHERE register.regtime = "Fall2020"
 RETURN student.name AS student_name;
 
 // 5) All degree names and levels offered by the department Computer Science, order by degree level
-MATCH (dept:departments {name: "Computer Science"})<-[:Administer]-(degree:degrees)
+MATCH (dept:departments {name: "Computer Science"})<-[:administer]-(degree:degrees)
 RETURN degree.name AS degree_name, degree.level AS degree_level
 ORDER BY degree_level;
 
@@ -27,45 +27,45 @@ RETURN student.snum AS student_snum, student.name AS student_name
 ORDER BY student_snum;
 
 // 7) The names and snums of all non-undergraduate students enrolled in course "database", order by snum
-MATCH (course:Course {name: "database"})<-[:ENROLLED_IN]-(student:Student)
+MATCH (course:courses {name: "database"})<-[:register]-(student:students)
 WHERE student.major_level IN ["MS", "PhD"]
 RETURN student.name AS student_name, student.snum AS student_snum
 ORDER BY student_snum;
 
 // 8) The name, snum and SSN of the students whose name contains letter "n" or "N", order by snum
-MATCH (student:Student)
+MATCH (student:students)
 WHERE toLower(student.name) CONTAINS "n"
 RETURN student.name AS student_name, student.snum AS student_snum, student.ssn AS student_ssn
 ORDER BY student_snum;
 
 // 9) The name, snum and SSN of the students whose name is between "Becky" and "Nicole", order by name
-MATCH (student:Student)
+MATCH (student:students)
 WHERE student.name >= "Becky" AND student.name <= "Nicole"
 RETURN student.name AS student_name, student.snum AS student_snum, student.ssn AS student_ssn
 ORDER BY student_name;
 
 // 10) The course number, name and the number of students registered for each course, order by course number
-MATCH (course:Course)
-OPTIONAL MATCH (course)<-[enrollment:ENROLLED_IN]-(:Student)
-WITH course, COUNT(enrollment) AS num_students
+MATCH (course:courses)
+OPTIONAL MATCH (course)<-[register:register]-(:students)
+WITH course, COUNT(register) AS num_students
 RETURN course.number AS course_number, course.name AS course_name, COALESCE(num_students, 0) AS num_registered_students
 ORDER BY course_number;
 
 // 11) The count of female students who major or minor in Software Engineering degrees at any level
-MATCH (degree:Degree {name: "Software Engineering"})
-MATCH (student:Student)-[:MAJOR_IN|MINOR_IN]->(degree)
+MATCH (degree:degrees {name: "Software Engineering"})
+MATCH (student:students)-[:major|minor]->(degrees)
 WHERE student.gender = "F"
 RETURN COUNT(DISTINCT student) AS count_female_students;
 
 // 12) The numbers and names of courses and their corresponding average grades from students registered in the past semesters
-MATCH (course:Course)<-[enrollment:ENROLLED_IN]-(student:Student)
-WHERE enrollment.regtime <> "Spring2021"  // Exclude Spring2021
-WITH course, AVG(enrollment.grade) AS avg_grade
+MATCH (course:courses)<-[register:register]-(student:students)
+WHERE register.regtime <> "Spring2021"  // Exclude Spring2021
+WITH course, AVG(register.grade) AS avg_grade
 RETURN course.number AS course_number, course.name AS course_name, avg_grade
 ORDER BY course_number;
 
 // 13) The count of female students who major or minor in a degree managed by LAS departments
-MATCH (dept:Department)-[:MANAGES]->(degree:Degree)<-[:MAJOR_IN|MINOR_IN]-(student:Student)
+MATCH (dept:departments)-[:administer]->(degree:degrees)<-[:major|minor]-(student:students)
 WHERE student.gender = "F" AND dept.college = "LAS"
 RETURN COUNT(DISTINCT student) AS count_female_students;
 
