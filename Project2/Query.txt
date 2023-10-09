@@ -12,17 +12,17 @@ RETURN course.number AS course_number, course.name AS course_name
 ORDER BY course_number;
 
 // 4) The name of the students enrolled in Fall2020 semester
-MATCH (student:students)-[register:register]->(:courses)
+MATCH (student:students)-[register:register]->(course:courses)
 WHERE register.regtime = "Fall2020"
 RETURN student.name AS student_name;
 
 // 5) All degree names and levels offered by the department Computer Science, order by degree level
-MATCH (dept:Department {name: "Computer Science"})<-[:OFFERED_BY]-(degree:Degree)
+MATCH (dept:departments {name: "Computer Science"})<-[:Administer]-(degree:degrees)
 RETURN degree.name AS degree_name, degree.level AS degree_level
 ORDER BY degree_level;
 
 // 6) The snum and names of all students who have a minor, order by student snum
-MATCH (student:Student)-[:MINOR_IN]->(:Degree)
+MATCH (student:students)-[:minor]->(:degrees)
 RETURN student.snum AS student_snum, student.name AS student_name
 ORDER BY student_snum;
 
