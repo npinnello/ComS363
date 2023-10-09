@@ -3,17 +3,17 @@ MATCH (student:students {name: "Kevin"})
 RETURN student.c_addr AS campus_address;
 
 // 2) The major name and major level of the students whose name is "Kevin"
-MATCH (student:Student {name: "Kevin"})-[:MAJOR_IN]->(major:Degree)
+MATCH (student:students {name: "Kevin"})-[:major]->(major:degrees)
 RETURN major.name AS major_name, major.level AS major_level;
 
 // 3) The numbers and names of all courses offered by the department of Computer Science, order by course number
-MATCH (dept:Department {name: "Computer Science"})<-[:OFFERED_BY]-(course:Course)
+MATCH (dept:department {name: "Computer Science"})<-[:offers]-(course:courses)
 RETURN course.number AS course_number, course.name AS course_name
 ORDER BY course_number;
 
 // 4) The name of the students enrolled in Fall2020 semester
-MATCH (student:Student)-[enrollment:ENROLLED_IN]->(:Course)
-WHERE enrollment.regtime = "Fall2020"
+MATCH (student:students)-[register:register]->(:courses)
+WHERE register.regtime = "Fall2020"
 RETURN student.name AS student_name;
 
 // 5) All degree names and levels offered by the department Computer Science, order by degree level
