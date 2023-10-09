@@ -7,7 +7,7 @@ MATCH (student:students {name: "Kevin"})-[:major]->(major:degrees)
 RETURN major.name AS major_name, major.level AS major_level;
 
 // 3) The numbers and names of all courses offered by the department of Computer Science, order by course number
-MATCH (dept:department {name: "Computer Science"})<-[:offers]-(course:courses)
+MATCH (dept:departments {name: "Computer Science"})<-[:offers]-(course:courses)
 RETURN course.number AS course_number, course.name AS course_name
 ORDER BY course_number;
 
