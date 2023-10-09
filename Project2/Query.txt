@@ -1,5 +1,5 @@
 // 1) The campus addresses of the students whose name is "Kevin"
-MATCH (student:Student {name: "Kevin"})
+MATCH (student:students {name: "Kevin"})
 RETURN student.c_addr AS campus_address;
 
 // 2) The major name and major level of the students whose name is "Kevin"
@@ -72,7 +72,7 @@ RETURN COUNT(DISTINCT student) AS count_female_students;
 // 14) The names of degrees that have more male students than female students (major or minor)
 MATCH (degree:Degree)<-[:MAJOR_IN|MINOR_IN]-(student:Student)
 WITH degree, COLLECT(student.gender) AS genders
-WHERE 'M' IN genders AND 'F' NOT IN genders
+WHERE 'M' IN genders AND NOT 'F' IN genders
 RETURN degree.name AS degree_name;
 
 // 15) The major degree that the youngest student is taken
