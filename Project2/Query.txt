@@ -27,8 +27,8 @@ RETURN student.snum AS student_snum, student.name AS student_name
 ORDER BY student_snum;
 
 // 7) The names and snums of all non-undergraduate students enrolled in course "database", order by snum
-MATCH (course:courses {name: "database"})<-[:register]-(student:students)
-WHERE student.major_level IN ["MS", "PhD"]
+MATCH (course:courses {name: "database"})<-[register:register]-(student:students)
+WHERE register.level IN ["MS", "PhD"]
 RETURN student.name AS student_name, student.snum AS student_snum
 ORDER BY student_snum;
 
@@ -70,26 +70,26 @@ WHERE student.gender = "F" AND dept.college = "LAS"
 RETURN COUNT(DISTINCT student) AS count_female_students;
 
 // 14) The names of degrees that have more male students than female students (major or minor)
-MATCH (degree:Degree)<-[:MAJOR_IN|MINOR_IN]-(student:Student)
+MATCH (degree:degrees)<-[:major|minor]-(student:students)
 WITH degree, COLLECT(student.gender) AS genders
 WHERE 'M' IN genders AND NOT 'F' IN genders
 RETURN degree.name AS degree_name;
 
 // 15) The major degree that the youngest student is taken
-MATCH (student:Student)
+MATCH (student:students)
 WITH MIN(student.dob) AS youngest_dob
-MATCH (student:Student {dob: youngest_dob})-[:MAJOR_IN]->(degree:Degree)
+MATCH (student:students {dob: youngest_dob})-[:major]->(degree:degrees)
 RETURN degree.name AS degree_name;
 
 // 16) The most popular major degrees and the number of students of these most popular majors
-MATCH (degree:Degree)<-[:MAJOR_IN]-(student:Student)
+MATCH (degree:degrees)<-[:major]-(student:students)
 WITH degree, COUNT(student) AS num_students
 ORDER BY num_students DESC
 LIMIT 1
 RETURN degree.name AS most_popular_major, num_students;
 
 // 17) The most popular major degrees and number of students of the most popular degrees
-MATCH (degree:Degree)<-[:MAJOR_IN|MINOR_IN]-(student:Student)
+MATCH (degree:degrees)<-[:major|minor]-(student:students)
 WITH degree, COUNT(student) AS num_students
 ORDER BY num_students DESC
 LIMIT 1

@@ -4,10 +4,10 @@ SET student.name = "Scott";
 
 // Change the major of the student with ssn = 746897816 to Computer Science, Master
 MATCH (student:students {ssn: 746897816})
-MERGE (degree:Degree {name: "Computer Science", level: "Master"})
-CREATE (student)-[:MAJOR_IN]->(degree);
+MERGE (degree:degrees {name: "Computer Science", level: "Master"})
+CREATE (student)-[:major]->(degree);
 
 // Delete all registration records that were in "Spring2021"
-MATCH (:courses)-[register:REGISTERED_IN]->(:students)
+MATCH (:courses)-[register:register]->(:students)
 WHERE register.regtime = "Spring2021"
 DELETE register;
