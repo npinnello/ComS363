@@ -12,9 +12,9 @@ RETURN course.number AS course_number, course.name AS course_name
 ORDER BY course_number;
 
 // 4) The name of the students enrolled in Fall2020 semester
-MATCH (student:students)-[register:register]->(course:courses)
-WHERE register.regtime = "Fall2020"
-RETURN student.name AS student_name;
+MATCH (s:students)-[r:register]->()
+WHERE r.regtime = "Fall2020"
+RETURN s.name AS student_name;
 
 // 5) All degree names and levels offered by the department Computer Science, order by degree level
 MATCH (dept:departments {name: "Computer Science"})<-[:administer]-(degree:degrees)
@@ -27,10 +27,11 @@ RETURN student.snum AS student_snum, student.name AS student_name
 ORDER BY student_snum;
 
 // 7) The names and snums of all non-undergraduate students enrolled in course "database", order by snum
-MATCH (course:courses {name: "database"})<-[register:register]-(student:students)
-WHERE register.level IN ["MS", "PhD"]
-RETURN student.name AS student_name, student.snum AS student_snum
-ORDER BY student_snum;
+MATCH (s:students)-[:register]->(c:courses {name: "Database"})
+MATCH (s)-[:major]->(degree:degrees)
+WHERE degree.level IN ["MS", "PHD"]
+RETURN s.snum, s.name
+ORDER BY s.snum;
 
 // 8) The name, snum and SSN of the students whose name contains letter "n" or "N", order by snum
 MATCH (student:students)
@@ -58,11 +59,9 @@ WHERE student.gender = "F"
 RETURN COUNT(DISTINCT student) AS count_female_students;
 
 // 12) The numbers and names of courses and their corresponding average grades from students registered in the past semesters
-MATCH (course:courses)<-[register:register]-(student:students)
-WHERE register.regtime <> "Spring2021"  // Exclude Spring2021
-WITH course, AVG(register.grade) AS avg_grade
-RETURN course.number AS course_number, course.name AS course_name, avg_grade
-ORDER BY course_number;
+MATCH (c:courses)<-[r:register]-(s:students)
+WITH c, s, r.grade AS grade 
+RETURN c.number, c.name, AVG(grade)
 
 // 13) The count of female students who major or minor in a degree managed by LAS departments
 MATCH (dept:departments)-[:administer]->(degree:degrees)<-[:major|minor]-(student:students)

@@ -8,6 +8,6 @@ MERGE (degree:major {name: "Computer Science", level: "Master"})
 CREATE (student)-[:major]->(degree);
 
 // Delete all registration records that were in "Spring2021"
-MATCH (:courses)-[register:register]->(:students)
+MATCH (course:courses)-[register:register]->(student:students)
 WHERE register.regtime = "Spring2021"
 DELETE register;
